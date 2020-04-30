@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <!-- Custom stylesheet -->
+        <link rel="stylesheet" href="css/custom.css">
+
+        <!-- Favicon setup -->
+        <link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicon/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon/favicon-16x16.png">
+        <link rel="manifest" href="assets/images/favicon/site.webmanifest">
+        
+        <title>Home</title>
+    </head>
+    <body>
+        <!-- Alt master with tabbed interface -->
+        <div class="container my-5">
+            <div class="row">
+                
+                <div class="col-3">
+                    <h2>Justin Katz</h2>
+                    <span>Cambridge, MA </span>
+                    </br>
+                    <span><a href="#" class="cryptedmail"
+                       data-name="katzj"
+                       data-domain="nber"
+                       data-tld="org"
+                       onclick="window.location.href = 'mailto:' + this.dataset.name + '@' + this.dataset.domain + '.' + this.dataset.tld; return false;"></a></span> 
+                    <ul class="nav nav-pills flex-column">
+                        <li class="active">
+                            <a data-toggle="tab" href="#ornament"><img id="randomOrnament" alt="ornament" style="max-width:75%; height:auto;"/></a>
+                        <li class="active">
+                            <a data-toggle="tab" href="#home">Home</a>
+                        </li>
+                        <li class="active">
+                            <a data-toggle="tab" href="#cv">CV</a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="col-8">
+                       <div class="tab-content">
+                            <div class="tab-pane show active" id="home">
+                                <h5>Education</h5>
+                                <dl class="row">
+                                    <dt class="col-sm-2">2018</dt>
+                                    <dd class="col-sm-10">Yale College, B.A. Economics and Mathematics, <i>summa cum laude</i>, Phi Beta Kappa</dd>
+                                </dl>
+                            </div>
+                            
+                            <div class="tab-pane" id="cv">
+                                    <p>Click <a href="/assets/files/katz_cv.pdf" download>here</a> to download a pdf version of my CV (updated January 2020)</p>
+                            </div>
+                            <div class="tab-pane" id="ornament">
+                                <p>This divider displays a rotating set of printer's ornaments featured in 18th-century social science manuscripts, courtesy of the <a href="https://fleuron.lib.cam.ac.uk/index">Fleuran Project</a> at the University of Cambridge. 
+                                <p>Refresh the page to view another!</p> 
+                       </div>
+                </div>
+            </div>
+        </div>
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <!-- By default Bootstrap CDN uses jQuery slim, but I occasionally require Ajax so load the full version -->
+        <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        
+        <!-- Script to load includes from common directory: omit .html when referencing files -->
+        <script>
+          $(function(){
+            var includes = $('[data-include]');
+            jQuery.each(includes, function(){
+              var file = 'common/' + $(this).data('include') + '.html';
+              $(this).load(file);
+            });
+          });
+        </script>
+        
+        <!-- Script to load random oranment -->
+        <script>
+            function getRandomImage() {
+                var ornamentNumbers=['4','5','7','8','9','11','13','14','15','16','18','19','21'];
+                var ornamentNames=[];
+
+                for (i of ornamentNumbers) {
+                    ornamentNames.push('/assets/images/random_ornament/ornament'+i+'.jpg'); 
+                }
+                
+                var image = ornamentNames[Math.floor(Math.random()*ornamentNames.length)];
+
+                return image;
+            }
+
+            function displayRandomOrnament() {
+                var htmlImage = document.getElementById("randomOrnament");
+                htmlImage.src = getRandomImage();
+            }
+            displayRandomOrnament();
+        </script> 
+    </body>
+</html>

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <!-- Custom stylesheet -->
+        <link rel="stylesheet" href="css/custom.css">
+
+        
+        <title>CV</title>
+    </head>
+    <body>
+        <!-- Master grid -->
+        <div class="container my-5">
+            <div class="row justify-content-md-center">            
+                
+                <!-- Navigation -->
+                <div class="col col-3" data-include="navigation"></div> 
+                
+                <!-- Main text -->
+                <div class="col col-8">
+                    <p>Click <a href="/assets/files/katz_cv.pdf" download>here</a> to download a pdf version of my CV (updated January 2020)</p>
+                </div>
+            
+            </div>
+        </div>
+        
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <!-- By default Bootstrap CDN uses jQuery slim, but I occasionally require Ajax so load the full version -->
+        <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        
+        <!-- Script to load includes from common directory: omit .html when referencing files -->
+        <script>
+          $(function(){
+            var includes = $('[data-include]');
+            jQuery.each(includes, function(){
+              var file = 'common/' + $(this).data('include') + '.html';
+              $(this).load(file);
+            });
+          });
+        </script>
+    </body>
+</html>
+
+
+

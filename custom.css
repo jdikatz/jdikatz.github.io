@@ -1,0 +1,25 @@
+/* Custom CSS Bootstrap overrides for personal website
+ * Author: Justin Katz
+ * Date: January 2020
+ */
+
+/* =============== Fonts and text options ==================*/
+
+/* .... Import styles */
+@import url('https://fonts.googleapis.com/css?family=Roboto|EB+Garamond');
+
+body {
+    font-family:"EB Garamond", Garamond, Georgia, serif;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    font-family:"EB Garamond", serif;
+}
+
+/* =============== Other tools ==================*/
+
+/* .... Email display */
+.cryptedmail:after {
+  content: attr(data-name) "@" attr(data-domain) "." attr(data-tld); 
+}
+
