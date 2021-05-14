@@ -1,0 +1,4 @@
+This is a Brave Rewards publisher verification file.
+
+Domain: jdikatz.github.io
+Token: ffcbd2c46098cfe8e95b909e25e81215538c00482f73280ed5faf585fe3ac0de
