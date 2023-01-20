@@ -57,4 +57,28 @@ h1,h2,h3,h4,h5,h6 {
     border-radius: 10px;
     line-height: 140%;
 }
+.graylinks{
+    user-select: none;
+    cursor: pointer; 
+    color: slategray;
+    background-color: whitesmoke; 
+    text-decoration: none;
+    font-weight: 100; 
+    padding: 5px;
+    margin-left: 20px;
+    white-space: nowrap; 
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -o-border-radius: 10px;
+    -ms-border-radius: 10px;
+    border-radius: 10px;
+    line-height: 210%;
+}
+.graylinks:hover{
+    user-select: none;
+    color: slategray;
+    text-decoration: none;
+    background-color: #dedede; 
+}
+
 
