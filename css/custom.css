@@ -33,14 +33,11 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 /* Remove extra space between stacked pill items */
-.nav-pills .nav-item {
-  margin-bottom: 0;
-}
+.nav-pills .nav-item,
 .nav-pills .nav-link {
   margin-bottom: 0;
-  display: inline-block;  /* makes them sit closer, like inline text */
+  padding-left: 0;
 }
-
 
 
 
