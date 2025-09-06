@@ -11,6 +11,14 @@ body {
   font-family: 'Noto Sans', Arial, sans-serif;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;  /* bold headings */
+}
+
+p, li, a, span {
+  font-weight: 400;  /* normal body text */
+}
+
 /* Garamond...
 
 @import url('https://fonts.googleapis.com/css?family=Roboto|EB+Garamond');
