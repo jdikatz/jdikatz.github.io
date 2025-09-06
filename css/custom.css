@@ -32,12 +32,17 @@ h1,h2,h3,h4,h5,h6 {
   padding-left: 0;   /* remove extra inset inside the links */
 }
 
-/* Remove extra space between stacked pill items */
-.nav-pills .nav-item,
-.nav-pills .nav-link {
-  margin-bottom: 0;
-  padding-left: 0;
+/* Stack pills with no vertical gap  */
+.nav.nav-pills.flex-column > li { 
+  margin: 0 !important;
 }
+.nav.nav-pills.flex-column > li > a {
+  display: inline !important;   /* was block via Bootstrap */
+  padding: 0 !important;        /* remove top/bottom padding */
+  line-height: 1.25;            /* tweak as desired */
+  border-radius: 0;             /* optional, keeps them text-like */
+}
+
 
 
 
