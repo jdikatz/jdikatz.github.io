@@ -5,7 +5,14 @@
 
 /* =============== Fonts and text options ==================*/
 
-/* .... Import styles */
+
+/* Use Source Sans Pro throughout */
+body {
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+/* Garamond...
+
 @import url('https://fonts.googleapis.com/css?family=Roboto|EB+Garamond');
 
 body {
@@ -15,6 +22,7 @@ body {
 h1,h2,h3,h4,h5,h6 {
     font-family:"EB Garamond", serif;
 }
+*/
 
 /* Remove shaded background from active pills */
 .nav-pills .nav-link.active,
