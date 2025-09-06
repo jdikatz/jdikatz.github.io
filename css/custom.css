@@ -23,6 +23,25 @@ h1,h2,h3,h4,h5,h6 {
   color: inherit !important; /* keep text consistent */
 }
 
+/* Remove left padding/margin so pills align flush with heading */
+.nav-pills {
+  padding-left: 0;
+  margin-left: 0;
+}
+.nav-pills .nav-link {
+  padding-left: 0;   /* remove extra inset inside the links */
+}
+
+/* Remove extra space between stacked pill items */
+.nav-pills .nav-item {
+  margin-bottom: 0;
+}
+.nav-pills .nav-link {
+  margin-bottom: 0;
+  display: inline-block;  /* makes them sit closer, like inline text */
+}
+
+
 
 
 /* =============== Other tools ==================*/
