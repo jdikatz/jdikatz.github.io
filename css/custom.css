@@ -53,11 +53,12 @@ h1,h2,h3,h4,h5,h6 {
 .nav.nav-pills.flex-column > li > a:hover,
 .nav.nav-pills.flex-column > li > a:focus {
   color: #0056b3 !important;      /* darker blue on hover (Bootstrap default) */
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
 .nav.nav-pills.flex-column > li > a.active {
   color: #0056b3 !important;      /* same darker blue for the active tab */
+  text-decoration: none !important;
 }
 
 
