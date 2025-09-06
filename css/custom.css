@@ -55,7 +55,7 @@ h1,h2,h3,h4,h5,h6 {
   background: none !important;    /* remove shading */
   color: #007bff !important;      /* Bootstrap's default link blue */
   font-weight: normal;
-  text-decoration: underline;
+  text-decoration: none !important;
 }
 
 .nav.nav-pills.flex-column > li > a:hover,
