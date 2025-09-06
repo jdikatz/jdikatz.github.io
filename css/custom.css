@@ -16,6 +16,15 @@ h1,h2,h3,h4,h5,h6 {
     font-family:"EB Garamond", serif;
 }
 
+/* Remove shaded background from active pills */
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+  background-color: transparent !important;
+  color: inherit !important; /* keep text consistent */
+}
+
+
+
 /* =============== Other tools ==================*/
 
 /* .... Email display */
