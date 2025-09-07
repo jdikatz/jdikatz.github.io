@@ -43,6 +43,13 @@ h1,h2,h3,h4,h5,h6 {
   text-decoration: underline;    /* adds underline */
 }
 
+.rr {
+  font-weight: bold;             /* bold text */
+  text-decoration: underline;    /* underline */
+  font-style: italic;            /* italic */
+}
+
+
 .gray-dotted {
   color: gray;
   text-decoration: underline dotted gray;
