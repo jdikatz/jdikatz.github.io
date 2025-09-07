@@ -11,6 +11,12 @@ body {
   font-family: 'Noto Sans', Arial, sans-serif;
 }
 
+/* Reduce base font size */
+body {
+  font-size: 0.875rem;  /* 14px */
+  font-family: 'Noto Sans', Arial, sans-serif;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-weight: 700;  /* bold headings */
 }
