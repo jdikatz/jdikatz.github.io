@@ -44,16 +44,16 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .gray-dotted {
-  color: lightgray;
-  text-decoration: underline dotted lightgray;
+  color: gray;
+  text-decoration: underline dotted gray;
 }
 
 .gray-dotted:hover {
-  color: gray;  /* optional: darker on hover */
+  color: darkgray;  /* optional: darker on hover */
 }
 
 .gray {
-  color: lightgray
+  color: gray
 }
 
 /* Remove shaded background from active pills */
