@@ -80,12 +80,12 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 /* Make nav-pills look like standard blue hyperlinks */
-.nav.nav-pills.flex-column > li {
+.nav.nav-pills.flex-md-column > li {
   margin: 0 !important;
   padding: 0 !important;
 }
 
-.nav.nav-pills.flex-column > li > a {
+.nav.nav-pills.flex-md-column > li > a {
   display: block;                 /* stacked vertically */
   padding: 0 !important;
   margin: 0 !important;
@@ -97,13 +97,13 @@ h1,h2,h3,h4,h5,h6 {
   text-decoration: none !important;
 }
 
-.nav.nav-pills.flex-column > li > a:hover,
-.nav.nav-pills.flex-column > li > a:focus {
+.nav.nav-pills.flex-md-column > li > a:hover,
+.nav.nav-pills.flex-md-column > li > a:focus {
   color: #0056b3 !important;      /* darker blue on hover (Bootstrap default) */
   text-decoration: none !important;
 }
 
-.nav.nav-pills.flex-column > li > a.active {
+.nav.nav-pills.flex-md-column > li > a.active {
   color: #0056b3 !important;      /* same darker blue for the active tab */
   text-decoration: none !important;
 }
