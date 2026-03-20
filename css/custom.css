@@ -81,8 +81,13 @@ h1,h2,h3,h4,h5,h6 {
 
 /* Make nav-pills look like standard blue hyperlinks */
 .nav.nav-pills.flex-md-column > li {
-  margin: 0 !important;
   padding: 0 !important;
+}
+
+@media (min-width: 768px) {
+  .nav.nav-pills.flex-md-column > li {
+    margin: 0 !important;
+  }
 }
 
 .nav.nav-pills.flex-md-column > li > a {
@@ -90,6 +95,13 @@ h1,h2,h3,h4,h5,h6 {
   padding: 0 !important;
   margin: 0 !important;
   line-height: 1.3;
+}
+
+@media (max-width: 767.98px) {
+  .nav.nav-pills.flex-md-column > li > a {
+    padding-right: 1rem !important;
+  }
+}
   border-radius: 0 !important;
   background: none !important;    /* remove shading */
   color: #007bff !important;      /* Bootstrap's default link blue */
