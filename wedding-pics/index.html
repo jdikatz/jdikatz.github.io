@@ -324,9 +324,11 @@
 
       simulateProgress();
 
+      // No Content-Type header — sending it as application/json triggers a CORS
+      // preflight that Apps Script doesn't handle, killing the request.
+      // Apps Script receives the raw body string regardless of content type.
       fetch(UPLOAD_ENDPOINT, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           image: base64,
           name: nameInput.value.trim()
