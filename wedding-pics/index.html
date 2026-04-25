@@ -87,18 +87,11 @@
       transition: border-color 0.2s;
     }
 
-    .name-input:focus {
-      border-color: var(--green-dark);
-    }
+    .name-input:focus { border-color: var(--green-dark); }
+    .name-input::placeholder { color: #aaa; }
 
-    .name-input::placeholder {
-      color: #aaa;
-    }
-
-    /* Hidden real file input */
-    #file-input {
-      display: none;
-    }
+    /* Hidden file inputs */
+    #camera-input, #library-input { display: none; }
 
     .upload-btn {
       display: flex;
@@ -126,7 +119,20 @@
       transform: none;
     }
 
-    .camera-icon {
+    .upload-btn-green {
+      background: var(--green);
+      margin-top: 0.75rem;
+    }
+    .upload-btn-green:hover { background: var(--green-dark); }
+
+    .or-divider {
+      margin: 0.75rem 0 0;
+      font-size: 0.85rem;
+      color: var(--text-light);
+      font-style: italic;
+    }
+
+    .btn-icon {
       width: 22px;
       height: 22px;
       flex-shrink: 0;
@@ -196,12 +202,6 @@
       color: var(--text);
     }
 
-    .success-sub {
-      font-size: 0.9rem;
-      color: var(--text-light);
-      font-style: italic;
-    }
-
     .another-btn {
       margin-top: 0.5rem;
       padding: 0.6rem 1.5rem;
@@ -242,7 +242,7 @@
 <body>
 
 <div class="card">
-  <!-- Default / upload state -->
+  <!-- Upload state -->
   <div id="upload-panel">
     <p class="monogram">LK Wedding</p>
     <h1>Share a Photo</h1>
@@ -258,19 +258,27 @@
       autocomplete="name"
     >
 
-    <input
-      id="file-input"
-      type="file"
-      accept="image/jpeg,image/png,image/heic,image/heif"
-      capture="environment"
-    >
+    <!-- Camera: single shot, opens native camera directly -->
+    <input id="camera-input" type="file" accept="image/jpeg,image/png,image/heic,image/heif" capture="environment">
+    <!-- Library: multi-select from photo roll -->
+    <input id="library-input" type="file" accept="image/jpeg,image/png,image/heic,image/heif" multiple>
 
-    <button class="upload-btn" id="upload-btn" onclick="document.getElementById('file-input').click()">
-      <svg class="camera-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <button class="upload-btn" id="camera-btn" onclick="document.getElementById('camera-input').click()">
+      <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
         <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
         <circle cx="12" cy="13" r="4"/>
       </svg>
-      Take or choose a photo
+      Take a photo
+    </button>
+
+    <p class="or-divider">or</p>
+
+    <button class="upload-btn upload-btn-green" id="library-btn" onclick="document.getElementById('library-input').click()">
+      <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+        <polyline points="21 15 16 10 5 21"/>
+      </svg>
+      Choose from library
     </button>
 
     <div class="progress-wrap" id="progress-wrap">
@@ -288,8 +296,7 @@
     <div class="success-icon">
       <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
     </div>
-    <p class="success-msg" id="success-msg">Thank you! Your photo has been shared ♥</p>
-    <p class="success-sub">We can't wait to look back on this day together.</p>
+    <p class="success-msg" id="success-msg"></p>
     <button class="another-btn" onclick="resetForm()">Share another photo</button>
   </div>
 </div>
@@ -299,19 +306,27 @@
 <script>
   const UPLOAD_ENDPOINT = "https://script.google.com/macros/s/AKfycbzmHTyqMpZBax-oSsyqq13OaSL1S_5Hp4QM053Or0XL0ffdjCtz30LnCpPj3BaBwNEL/exec";
 
-  const fileInput   = document.getElementById("file-input");
-  const uploadBtn   = document.getElementById("upload-btn");
-  const nameInput   = document.getElementById("name-input");
+  const cameraInput  = document.getElementById("camera-input");
+  const libraryInput = document.getElementById("library-input");
+  const cameraBtn    = document.getElementById("camera-btn");
+  const libraryBtn   = document.getElementById("library-btn");
+  const nameInput    = document.getElementById("name-input");
   const progressWrap = document.getElementById("progress-wrap");
   const progressBar  = document.getElementById("progress-bar");
   const progressLabel = document.getElementById("progress-label");
-  const errorMsg    = document.getElementById("error-msg");
-  const uploadPanel = document.getElementById("upload-panel");
+  const errorMsg     = document.getElementById("error-msg");
+  const uploadPanel  = document.getElementById("upload-panel");
   const successPanel = document.getElementById("success-panel");
 
-  fileInput.addEventListener("change", function () {
-    if (fileInput.files && fileInput.files[0]) {
-      uploadPhoto(fileInput.files[0]);
+  cameraInput.addEventListener("change", function () {
+    if (cameraInput.files && cameraInput.files[0]) {
+      startUpload(cameraInput.files);
+    }
+  });
+
+  libraryInput.addEventListener("change", function () {
+    if (libraryInput.files && libraryInput.files.length) {
+      startUpload(libraryInput.files);
     }
   });
 
@@ -332,43 +347,63 @@
       .then(function (res) { return res.json(); });
   }
 
-  function uploadPhoto(file) {
+  function startUpload(files) {
+    var total = files.length;
+    var done = 0;
+    var guestName = nameInput.value.trim();
+
     setUploading(true);
+    progressBar.style.width = "0%";
 
-    var reader = new FileReader();
-    reader.onload = function (e) {
-      var base64 = e.target.result;
+    function uploadNext() {
+      if (done >= total) {
+        showSuccess(guestName, total);
+        return;
+      }
 
-      simulateProgress();
+      var idx = done;
+      progressLabel.textContent = total > 1
+        ? "Uploading " + (idx + 1) + " of " + total + "…"
+        : "Uploading…";
 
-      var guestName = nameInput.value.trim();
-      doFetch(base64, guestName)
-      .then(function (data) {
-        if (data.success) {
-          showSuccess(guestName);
-        } else {
-          showError("Something went wrong. Please try again.");
-        }
-      })
-      .catch(function () {
-        showError("Couldn't connect. Check your signal and try again.");
-      });
-    };
+      // For single files, animate smoothly; for multi, step per file
+      if (total === 1) {
+        startSimulation();
+      } else {
+        progressBar.style.width = (idx / total * 90) + "%";
+      }
 
-    reader.onerror = function () {
-      showError("Couldn't read that file. Please try a different photo.");
-    };
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        doFetch(e.target.result, guestName)
+          .then(function (data) {
+            if (data.success) {
+              done++;
+              uploadNext();
+            } else {
+              showError("Something went wrong on photo " + (idx + 1) + ". Please try again.");
+            }
+          })
+          .catch(function () {
+            showError("Couldn't connect. Check your signal and try again.");
+          });
+      };
+      reader.onerror = function () {
+        showError("Couldn't read that file. Please try a different photo.");
+      };
+      reader.readAsDataURL(files[idx]);
+    }
 
-    reader.readAsDataURL(file);
+    uploadNext();
   }
 
-  // Fake progress animation — real upload progress isn't available via fetch without XHR
   var progressTimer;
-  function simulateProgress() {
-    var pct = 0;
+  function startSimulation() {
+    clearInterval(progressTimer);
+    var pct = parseFloat(progressBar.style.width) || 0;
+    var target = 90;
     progressTimer = setInterval(function () {
-      // Slow approach to 90%, holds there until response arrives
-      pct = pct < 90 ? pct + (90 - pct) * 0.08 : pct;
+      pct = pct + (target - pct) * 0.08;
       progressBar.style.width = pct + "%";
     }, 200);
   }
@@ -380,17 +415,18 @@
   }
 
   function setUploading(on) {
-    uploadBtn.disabled = on;
+    cameraBtn.disabled = on;
+    libraryBtn.disabled = on;
     progressWrap.classList.toggle("visible", on);
     errorMsg.classList.remove("visible");
-    if (on) {
-      progressBar.style.width = "0%";
-      progressLabel.textContent = "Uploading…";
-    }
   }
 
-  function showSuccess(name) {
-    var msg = name ? "Thanks for the pic, " + name + "!" : "Thanks for the pic!";
+  function showSuccess(name, count) {
+    var firstName = name ? name.trim().split(/\s+/)[0] : "";
+    var picWord = count > 1 ? "pics" : "pic";
+    var msg = firstName
+      ? "Thanks for the " + picWord + ", " + firstName + "!"
+      : "Thanks for the " + picWord + "!";
     document.getElementById("success-msg").textContent = msg;
     finishProgress(function () {
       uploadPanel.style.display = "none";
@@ -403,7 +439,8 @@
       setUploading(false);
       errorMsg.textContent = msg;
       errorMsg.classList.add("visible");
-      fileInput.value = "";
+      cameraInput.value = "";
+      libraryInput.value = "";
     });
   }
 
@@ -411,11 +448,13 @@
     successPanel.classList.remove("visible");
     uploadPanel.style.display = "";
     nameInput.value = "";
-    fileInput.value = "";
+    cameraInput.value = "";
+    libraryInput.value = "";
     errorMsg.classList.remove("visible");
     progressWrap.classList.remove("visible");
     progressBar.style.width = "0%";
-    uploadBtn.disabled = false;
+    cameraBtn.disabled = false;
+    libraryBtn.disabled = false;
   }
 </script>
 
