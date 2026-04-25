@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>LK Wedding 5-2 · Share a Photo</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --yellow:      #f7e96b;
+      --yellow-dark: #e8d84a;
+      --green:       #b8d9a0;
+      --green-dark:  #96c47c;
+      --cream:       #fefdf4;
+      --text:        #3a3a2e;
+      --text-light:  #6b6b52;
+      --radius:      14px;
+    }
+
+    html, body {
+      min-height: 100%;
+      background: var(--cream);
+      color: var(--text);
+      font-family: 'Georgia', 'Times New Roman', serif;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100svh;
+      padding: 2rem 1.25rem;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 420px;
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 2.5rem 2rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+
+    .monogram {
+      font-size: 2rem;
+      letter-spacing: 0.15em;
+      color: var(--text-light);
+      margin-bottom: 0.25rem;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: normal;
+      margin-bottom: 0.4rem;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      color: var(--text-light);
+      margin-bottom: 2rem;
+      font-style: italic;
+    }
+
+    .divider {
+      width: 48px;
+      height: 2px;
+      background: var(--green);
+      margin: 0 auto 2rem;
+      border-radius: 2px;
+    }
+
+    .name-input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1.5px solid #e0e0d0;
+      border-radius: var(--radius);
+      font-family: inherit;
+      font-size: 1rem;
+      color: var(--text);
+      background: var(--cream);
+      margin-bottom: 1.25rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .name-input:focus {
+      border-color: var(--green-dark);
+    }
+
+    .name-input::placeholder {
+      color: #aaa;
+    }
+
+    /* Hidden real file input */
+    #file-input {
+      display: none;
+    }
+
+    .upload-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      width: 100%;
+      padding: 0.9rem 1rem;
+      background: var(--yellow);
+      border: none;
+      border-radius: var(--radius);
+      font-family: inherit;
+      font-size: 1.05rem;
+      color: var(--text);
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .upload-btn:hover { background: var(--yellow-dark); }
+    .upload-btn:active { transform: scale(0.98); }
+    .upload-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .camera-icon {
+      width: 22px;
+      height: 22px;
+      flex-shrink: 0;
+    }
+
+    /* Progress */
+    .progress-wrap {
+      margin-top: 1.5rem;
+      display: none;
+    }
+
+    .progress-wrap.visible { display: block; }
+
+    .progress-bar-track {
+      width: 100%;
+      height: 6px;
+      background: #eee;
+      border-radius: 3px;
+      overflow: hidden;
+      margin-bottom: 0.6rem;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--green-dark);
+      border-radius: 3px;
+      transition: width 0.3s ease;
+    }
+
+    .progress-label {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      font-style: italic;
+    }
+
+    /* Success */
+    .success-panel {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .success-panel.visible { display: flex; }
+
+    .success-icon {
+      width: 56px;
+      height: 56px;
+      background: var(--green);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .success-icon svg {
+      width: 28px;
+      height: 28px;
+      stroke: #3a6b2a;
+      stroke-width: 2.5;
+      fill: none;
+    }
+
+    .success-msg {
+      font-size: 1.15rem;
+      color: var(--text);
+    }
+
+    .success-sub {
+      font-size: 0.9rem;
+      color: var(--text-light);
+      font-style: italic;
+    }
+
+    .another-btn {
+      margin-top: 0.5rem;
+      padding: 0.6rem 1.5rem;
+      background: transparent;
+      border: 1.5px solid var(--green-dark);
+      border-radius: var(--radius);
+      font-family: inherit;
+      font-size: 0.95rem;
+      color: var(--text);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .another-btn:hover { background: var(--green); }
+
+    /* Error */
+    .error-msg {
+      display: none;
+      margin-top: 1rem;
+      padding: 0.75rem 1rem;
+      background: #fff3f3;
+      border: 1px solid #f5c2c2;
+      border-radius: var(--radius);
+      font-size: 0.9rem;
+      color: #a33;
+    }
+
+    .error-msg.visible { display: block; }
+
+    footer {
+      margin-top: 2rem;
+      font-size: 0.78rem;
+      color: #bbb;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <!-- Default / upload state -->
+  <div id="upload-panel">
+    <p class="monogram">L &amp; K</p>
+    <h1>Share a Photo</h1>
+    <p class="subtitle">May 2nd, 2026</p>
+    <div class="divider"></div>
+
+    <input
+      class="name-input"
+      id="name-input"
+      type="text"
+      placeholder="Your name (optional)"
+      maxlength="60"
+      autocomplete="name"
+    >
+
+    <input
+      id="file-input"
+      type="file"
+      accept="image/jpeg,image/png,image/heic,image/heif"
+      capture="environment"
+    >
+
+    <button class="upload-btn" id="upload-btn" onclick="document.getElementById('file-input').click()">
+      <svg class="camera-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+        <circle cx="12" cy="13" r="4"/>
+      </svg>
+      Take or choose a photo
+    </button>
+
+    <div class="progress-wrap" id="progress-wrap">
+      <div class="progress-bar-track">
+        <div class="progress-bar-fill" id="progress-bar"></div>
+      </div>
+      <p class="progress-label" id="progress-label">Uploading…</p>
+    </div>
+
+    <div class="error-msg" id="error-msg"></div>
+  </div>
+
+  <!-- Success state -->
+  <div class="success-panel" id="success-panel">
+    <div class="success-icon">
+      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <p class="success-msg">Thank you! Your photo has been shared ♥</p>
+    <p class="success-sub">We can't wait to look back on this day together.</p>
+    <button class="another-btn" onclick="resetForm()">Share another photo</button>
+  </div>
+</div>
+
+<footer>Photos are private and visible only to the couple.</footer>
+
+<script>
+  const UPLOAD_ENDPOINT = "YOUR_APPS_SCRIPT_URL_HERE";
+
+  const fileInput   = document.getElementById("file-input");
+  const uploadBtn   = document.getElementById("upload-btn");
+  const nameInput   = document.getElementById("name-input");
+  const progressWrap = document.getElementById("progress-wrap");
+  const progressBar  = document.getElementById("progress-bar");
+  const progressLabel = document.getElementById("progress-label");
+  const errorMsg    = document.getElementById("error-msg");
+  const uploadPanel = document.getElementById("upload-panel");
+  const successPanel = document.getElementById("success-panel");
+
+  fileInput.addEventListener("change", function () {
+    if (fileInput.files && fileInput.files[0]) {
+      uploadPhoto(fileInput.files[0]);
+    }
+  });
+
+  function uploadPhoto(file) {
+    setUploading(true);
+
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      var base64 = e.target.result; // full data URI
+
+      simulateProgress();
+
+      fetch(UPLOAD_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          image: base64,
+          name: nameInput.value.trim()
+        })
+      })
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        if (data.success) {
+          showSuccess();
+        } else {
+          showError("Something went wrong. Please try again.");
+        }
+      })
+      .catch(function () {
+        showError("Couldn't connect. Check your signal and try again.");
+      });
+    };
+
+    reader.onerror = function () {
+      showError("Couldn't read that file. Please try a different photo.");
+    };
+
+    reader.readAsDataURL(file);
+  }
+
+  // Fake progress animation — real upload progress isn't available via fetch without XHR
+  var progressTimer;
+  function simulateProgress() {
+    var pct = 0;
+    progressTimer = setInterval(function () {
+      // Slow approach to 90%, holds there until response arrives
+      pct = pct < 90 ? pct + (90 - pct) * 0.08 : pct;
+      progressBar.style.width = pct + "%";
+    }, 200);
+  }
+
+  function finishProgress(cb) {
+    clearInterval(progressTimer);
+    progressBar.style.width = "100%";
+    setTimeout(cb, 350);
+  }
+
+  function setUploading(on) {
+    uploadBtn.disabled = on;
+    progressWrap.classList.toggle("visible", on);
+    errorMsg.classList.remove("visible");
+    if (on) {
+      progressBar.style.width = "0%";
+      progressLabel.textContent = "Uploading…";
+    }
+  }
+
+  function showSuccess() {
+    finishProgress(function () {
+      uploadPanel.style.display = "none";
+      successPanel.classList.add("visible");
+    });
+  }
+
+  function showError(msg) {
+    finishProgress(function () {
+      setUploading(false);
+      errorMsg.textContent = msg;
+      errorMsg.classList.add("visible");
+      fileInput.value = "";
+    });
+  }
+
+  function resetForm() {
+    successPanel.classList.remove("visible");
+    uploadPanel.style.display = "";
+    nameInput.value = "";
+    fileInput.value = "";
+    errorMsg.classList.remove("visible");
+    progressWrap.classList.remove("visible");
+    progressBar.style.width = "0%";
+    uploadBtn.disabled = false;
+  }
+</script>
+
+</body>
+</html>
