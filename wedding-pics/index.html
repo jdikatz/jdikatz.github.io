@@ -244,9 +244,9 @@
 <div class="card">
   <!-- Default / upload state -->
   <div id="upload-panel">
-    <p class="monogram">L &amp; K</p>
+    <p class="monogram">LK Wedding</p>
     <h1>Share a Photo</h1>
-    <p class="subtitle">May 2nd, 2026</p>
+    <p class="subtitle">May 1-2, 2026</p>
     <div class="divider"></div>
 
     <input
@@ -288,13 +288,13 @@
     <div class="success-icon">
       <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
     </div>
-    <p class="success-msg">Thank you! Your photo has been shared ♥</p>
+    <p class="success-msg" id="success-msg">Thank you! Your photo has been shared ♥</p>
     <p class="success-sub">We can't wait to look back on this day together.</p>
     <button class="another-btn" onclick="resetForm()">Share another photo</button>
   </div>
 </div>
 
-<footer>Photos are private and visible only to the couple.</footer>
+<footer>Photos are only visible to the couple.</footer>
 
 <script>
   const UPLOAD_ENDPOINT = "https://script.google.com/macros/s/AKfycbzmHTyqMpZBax-oSsyqq13OaSL1S_5Hp4QM053Or0XL0ffdjCtz30LnCpPj3BaBwNEL/exec";
@@ -341,10 +341,11 @@
 
       simulateProgress();
 
-      doFetch(base64, nameInput.value.trim())
+      var guestName = nameInput.value.trim();
+      doFetch(base64, guestName)
       .then(function (data) {
         if (data.success) {
-          showSuccess();
+          showSuccess(guestName);
         } else {
           showError("Something went wrong. Please try again.");
         }
@@ -388,7 +389,9 @@
     }
   }
 
-  function showSuccess() {
+  function showSuccess(name) {
+    var msg = name ? "Thanks for the pic, " + name + "!" : "Thanks for the pic!";
+    document.getElementById("success-msg").textContent = msg;
     finishProgress(function () {
       uploadPanel.style.display = "none";
       successPanel.classList.add("visible");
